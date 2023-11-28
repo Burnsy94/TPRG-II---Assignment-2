@@ -1,0 +1,15 @@
+# TPRG II Assignment 2
+# Alex Burns - 100885375
+# Runs on PC, directly from Thonny
+# The Client
+
+import socket
+s = socket.socket()
+host = '10.102.13.178'  # IP of Raspberry Pi, running the server
+port = 5000
+s.connect((host, port))
+data = s.recv(1024)  # Original buffer size
+decoded_data = data.decode('utf-8')
+for line in decoded_data.split('\\n'):
+    print(line)
+s.close()
