@@ -1,9 +1,10 @@
 # TPRG II Assignment 2
 # Alex Burns - 100885375
 
+# Code taken from ChatGPT on November 27th, 2023. Prompted by asking "Complete this incomplete code. Add a total of 4 NEW vcgencmd calls and further process each. Add the detail to obtain each argument from the 4 new functions in the Server [the starter file is provided with the appropriate detail to get the core temperature, you need  to add 4 (four more arguments). Each argument should be sent to the client using a Json object"
 import socket
 import json
-import os  # Code taken from ChatGPT on November 27th, 2023. Prompted by asking "My code is giving me errors and not recognizing the core temperature on vcgencmd module. Please incorporate the os module instead"
+import os  # Code modified from ChatGPT on November 27th, 2023. Prompted by asking "My code is giving me errors and not recognizing the core temperature on vcgencmd module. Please incorporate the os module instead"
 
 # Function to execute vcgencmd commands and return the result
 def run_vcgencmd(command):
@@ -81,4 +82,5 @@ while True:
     json_data = json.dumps(data, indent=4)  # Pretty print the data with an indent
     c.send(bytes(json_data, 'utf-8'))  # Send JSON string as bytes
     c.close()
-    # # Code taken from ChatGPT on November 27th, 2023. Prompted by asking "My code is giving me errors and not recognizing the core temperature on vcgencmd module. Please incorporate the os module instead"
+# Code taken from ChatGPT on November 27th, 2023. Prompted by asking "Complete this incomplete code. Add a total of 4 NEW vcgencmd calls and further process each. Add the detail to obtain each argument from the 4 new functions in the Server [the starter file is provided with the appropriate detail to get the core temperature, you need  to add 4 (four more arguments). Each argument should be sent to the client using a Json object"
+# Code modified from ChatGPT on November 27th, 2023. Prompted by asking "My code is giving me errors and not recognizing the core temperature on vcgencmd module. Please incorporate the os module instead"
