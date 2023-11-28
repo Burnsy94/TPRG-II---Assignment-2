@@ -1,0 +1,41 @@
+Taken from ChatGPT on November 28th, 2023. Prompted by asking: Give this code commit messages for Github.
+
+
+Initial commit: Add server monitoring functionalities:
+- Implement base server setup to listen on port 5000.
+- Add functionality to retrieve core temperature using vcgencmd.
+- Establish JSON data structure for client communication.
+
+Enhance server with voltage and memory monitoring:
+- Include vcgencmd calls to monitor core voltage.
+- Add function to split memory between CPU and GPU.
+- Update JSON structure to include new monitoring data.
+
+Integrate clock frequency and SDRAM voltage retrieval:
+- Add function to get clock frequencies of various components.
+- Implement SDRAM voltage measurement for controller, I/O, and PHY.
+- Ensure data is encapsulated within the JSON response.
+
+Implement throttling and codec status checks:
+- Create function to check system throttling state.
+- Add retrieval of codec status for multiple codecs.
+- Update server data response to include new checks.
+
+Add disk usage information to server data output:
+- Implement function to get disk usage via df command.
+- Incorporate disk usage into server's JSON response.
+- Ensure all server data is formatted for readability.
+
+Refactor vcgencmd calls to use os module:
+- Replace vcgencmd module usage with os.popen for system command execution.
+- Ensure consistent data retrieval after refactor.
+- Maintain JSON data structure for client communication.
+
+
+
+
+
+
+
+
+
