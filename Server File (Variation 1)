@@ -1,0 +1,81 @@
+# TPRG II - Assignment 2
+# Alex Burns - 100##5##5
+
+# Code taken from ChatGPT on November 27th, 2023. Prompted by asking "Complete this incomplete code. Add a total of 4 NEW vcgencmd calls and further process each. Add the detail to obtain each argument from the 4 new functions in the Server [the starter file is provided with the appropriate detail to get the core temperature, you need  to add 4 (four more arguments). Each argument should be sent to the client using a Json object"
+import socket
+import json
+import vcgencmd  # Ensure that this module is installed and available
+
+def get_core_temperature():
+    # Function to get the core temperature of the Pi using vcgencmd module
+    return vcgencmd.measure_temp()
+
+def get_core_voltage():
+    # Function to get the core voltage of the Pi using vcgencmd module
+    return vcgencmd.measure_volts('core')
+
+def get_memory_split():
+    # Function to get the memory split between CPU and GPU
+    arm_memory = vcgencmd.get_mem('arm')
+    gpu_memory = vcgencmd.get_mem('gpu')
+    return {"ARM Memory": arm_memory, "GPU Memory": gpu_memory}
+
+def get_clock_frequencies():
+    # Function to get the clock frequencies
+    frequencies = {}
+    for source in vcgencmd.frequency_sources():
+        freq = vcgencmd.measure_clock(source)
+        frequencies[source] = freq
+    return frequencies
+
+def get_sdram_voltages():
+    # Function to get the voltages of the SD card
+    sdram_c = vcgencmd.measure_volts('sdram_c')
+    sdram_i = vcgencmd.measure_volts('sdram_i')
+    sdram_p = vcgencmd.measure_volts('sdram_p')
+    return {"SDRAM Controller Voltage": sdram_c, "SDRAM I/O Voltage": sdram_i, "SDRAM PHY Voltage": sdram_p}
+
+def get_throttled():
+    # Function to get the throttled state of the system
+    throttled = vcgencmd.get_throttled()
+    return {"Throttled": throttled}
+
+def get_codec_status():
+    # Function to get the status of various codecs
+    codecs = {}
+    for codec in vcgencmd.codec_enabled():
+        status = vcgencmd.codec_enabled(codec)
+        codecs[codec] = status
+    return codecs
+
+def get_disk_usage():
+    # Function to get the disk usage. This is not a vcgencmd function, so we'll use os module.
+    import os
+    disk_usage = os.popen("df -h | grep /dev/root").read().strip()  # Assuming /dev/root is the disk partition to check
+    return {"Disk Usage": disk_usage}
+
+s = socket.socket()
+host = ''  # Localhost
+port = 5000
+s.bind((host, port))
+s.listen(5)
+
+print(f"Server started. Listening on port {port}.")
+
+while True:
+    c, addr = s.accept()
+    print('Got connection from', addr)
+    data = {
+        "Core Temperature": get_core_temperature(),
+        "Core Voltage": get_core_voltage(),
+        "Memory Split": get_memory_split(),
+        "Clock Frequencies": get_clock_frequencies(),
+        "SDRAM Voltages": get_sdram_voltages(),
+        "Throttled State": get_throttled(),
+        "Codec Status": get_codec_status(),
+        "Disk Usage": get_disk_usage()
+    }
+    json_data = json.dumps(data)  # Convert dictionary to JSON string
+    c.send(bytes(json_data, 'utf-8'))  # Send JSON string as bytes
+    c.close()
+# Code taken from ChatGPT on November 27th, 2023. Prompted by asking "Complete this incomplete code. Add a total of 4 NEW vcgencmd calls and further process each. Add the detail to obtain each argument from the 4 new functions in the Server [the starter file is provided with the appropriate detail to get the core temperature, you need  to add 4 (four more arguments). Each argument should be sent to the client using a Json object"
